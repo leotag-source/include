@@ -20,7 +20,7 @@ char program_path[4096];
 
 void ______INIT______()
 {
-  
+  main();
 }
 
 ______STOP______:
