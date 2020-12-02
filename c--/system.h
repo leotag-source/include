@@ -18,6 +18,21 @@ dword  I_Path       = #program_path;
 char param[4096];
 char program_path[4096];
 
+float brackets_float(float x)
+{
+  return x;
+}
+
+dword brackets_string(dword x)
+{
+  return x;
+}
+
+int brackets_integer(int x)
+{
+  return x;
+}
+
 void ______INIT______()
 {
   main();
