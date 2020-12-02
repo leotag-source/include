@@ -33,6 +33,14 @@ inline int brackets_integer(int x)
   return x;
 }
 
+inline int prototype_len_string(dword text)
+{
+  dword begin = 0;
+  begin = text;
+  while(DSBYTE[text]) text++;
+  return text-begin;
+}
+
 void ______INIT______()
 {
   main();
