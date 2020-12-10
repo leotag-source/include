@@ -1,1 +1,4 @@
 
+void consolePrint(dword text) {
+  
+}
