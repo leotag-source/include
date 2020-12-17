@@ -18,6 +18,18 @@ dword  I_Path       = #program_path;
 char param[4096];
 char program_path[4096];
 
+inline byte IntegerToBoolean(signed int value)
+{
+  if (value != 0) return 0x01;
+  return 0;
+}
+
+inline byte IntegerCompareEq(signed int value1, signed int value2)
+{
+  if (value1 == value2) return 0x01;
+  return 0;
+}
+
 inline float brackets_float(float x)
 {
   return x;
