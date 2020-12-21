@@ -14,8 +14,8 @@ dword  alloc_mem    = 100000;
 dword  x86esp_reg   = 100000;
 dword  I_Param      = #param;
 dword  I_Path       = #program_path;
-char param[4096];
-char program_path[4096];
+char param[4096]={0};
+char program_path[4096]={0};
 
 inline byte IntegerToBoolean(signed int value)
 {
