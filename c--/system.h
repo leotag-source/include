@@ -12,8 +12,8 @@ dword  start_addr   = #______INIT______;
 dword  final_addr   = #______STOP______+32;
 dword  alloc_mem    = 100000;
 dword  x86esp_reg   = 100000;
-dword  I_Param      = #param;
-dword  I_Path       = #program_path;
+dword  I_Param      = 0;
+dword  I_Path       = 0;
 char param[4096]={0};
 char program_path[4096]={0};
 
