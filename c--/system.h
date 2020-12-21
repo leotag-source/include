@@ -4,7 +4,6 @@
 #pragma option -CPA
 #initallvar 0
 #jumptomain FALSE
-#startaddress 0
 #code32 TRUE
 
 char   os_name[8]   = {'M','E','N','U','E','T','0','1'};
