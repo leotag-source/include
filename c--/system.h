@@ -159,6 +159,7 @@ inline dword free2(dword address)
     word keyCurrent = 0;
     word keyLength = 0;
     dword allocBytePosition = 0;
+    address--;
     allocSizePosition = DSBYTE[address];
     allocBytePosition = allocSizePosition * 4 + allocateBuffer;
     key = DSDWORD[allocBytePosition];
@@ -179,7 +180,7 @@ inline dword free2(dword address)
         keyCurrent = DSWORD[key+2];
         DSWORD[key] = keyLength<<1;
     }
-    DSDWORD[keyCurrent+4] = address-1;
+    DSDWORD[key+keyCurrent+4] = address;
     return address;
 }
 
