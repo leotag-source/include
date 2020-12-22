@@ -201,6 +201,16 @@ dword free2(dword address)
     return address;
 }
 
+inline fastcall void strcpy( EDI, ESI)
+{
+    $cld
+L2:
+    $lodsb
+    $stosb
+    $test al,al
+    $jnz L2
+}
+
 void ______INIT______()
 {
     mem_init();
