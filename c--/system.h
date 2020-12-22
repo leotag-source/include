@@ -65,6 +65,49 @@ inline int prototype_len_string(dword text)
   return text-begin;
 }
 
+:unsigned char BUF_ITOA[11];
+inline dword itoa(signed long number)
+{
+        dword ret,p;
+        byte cmd;
+        long mask,tmp;
+        mask = 1000000000;
+        cmd = 1;
+        p = #BUF_ITOA;
+        if(!number){
+                ESBYTE[p] = '0';
+                ESBYTE[p+1] = 0;
+                return p;
+        }
+        ret = p;
+        if(number<0)
+        {
+                $neg number
+                ESBYTE[p] = '-';
+                $inc p
+        }
+        while(mask)
+        {
+                tmp = number / mask;
+                tmp = tmp%10;
+
+                if(cmd){
+                        if(tmp){
+                                ESBYTE[p] = tmp + '0';
+                                $inc p
+                                cmd = 0;
+                        }
+                }
+                else {
+                        ESBYTE[p] = tmp + '0';
+                        $inc p
+                }
+                mask /= 10;
+        }
+        ESBYTE[p] = 0;
+        return ret;
+}
+
 inline fastcall void mem_init()
 {
         $mov     eax, 68
@@ -127,6 +170,7 @@ inline dword malloc2(dword size)
     word keyCurrent = 0;
     word keyLength = 0;
     byte allocSizePosition = allocSize(size);
+
     allocBytePosition = allocSizePosition * 4 + allocateBuffer;
     key = DSDWORD[allocBytePosition];
     if (!key)
@@ -145,11 +189,10 @@ inline dword malloc2(dword size)
         DSBYTE[alloc] = allocSizePosition;
         return alloc+1;
     }
-
-    DSWORD[key+2] = DSWORD[key+2] - 4;
-    keyCurrent = DSWORD[key+2];
-
-    return DSDWORD[key+keyCurrent]+1;
+    keyCurrent -= 4;
+    DSWORD[key+2] = keyCurrent;
+    key += keyCurrent;
+    return DSDWORD[key]+1;
 }
 
 inline dword free2(dword address)
@@ -173,6 +216,7 @@ inline dword free2(dword address)
     keyLength = DSWORD[key];
     keyCurrent = DSWORD[key+2];
     DSWORD[key+2] = keyCurrent+4;
+
     if (DSWORD[key+2] > keyLength)
     {
         DSDWORD[allocBytePosition] = realloc(key, keyLength<<1);
@@ -180,8 +224,9 @@ inline dword free2(dword address)
         keyCurrent = DSWORD[key+2];
         DSWORD[key] = keyLength<<1;
     }
-    DSDWORD[key+keyCurrent+4] = address;
-    return address;
+    key += keyCurrent;
+    DSDWORD[key] = address;
+    return address+1;
 }
 
 inline fastcall void strcpy( EDI, ESI)
