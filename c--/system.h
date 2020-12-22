@@ -35,6 +35,12 @@ inline byte IntegerCompareLt(signed int x, signed int y)
   return 0;
 }
 
+inline byte IntegerCompareRt(signed int x, signed int y)
+{
+  if (x > y) return 1;
+  return 0;
+}
+
 inline float brackets_float(float x)
 {
   return x;
