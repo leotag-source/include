@@ -16,7 +16,7 @@ dword  I_Param      = 0;
 dword  I_Path       = 0;
 char param[4096]={0};
 char program_path[4096]={0};
-dword allocateBuffer[4*32] = {0};
+dword allocateBuffer = 0;
 
 inline byte IntegerToBoolean(signed int value)
 {
@@ -127,7 +127,7 @@ inline dword malloc2(dword size)
     word keyCurrent = 0;
     word keyLength = 0;
     byte allocSizePosition = allocSize(size);
-    allocBytePosition = allocSizePosition * 4 + #allocateBuffer;
+    allocBytePosition = allocSizePosition * 4 + allocateBuffer;
     key = DSDWORD[allocBytePosition];
     if (!key)
     {
@@ -160,7 +160,7 @@ inline dword free2(dword address)
     word keyLength = 0;
     dword allocBytePosition = 0;
     allocSizePosition = DSBYTE[address];
-    allocBytePosition = allocSizePosition * 4 + #allocateBuffer;
+    allocBytePosition = allocSizePosition * 4 + allocateBuffer;
     key = DSDWORD[allocBytePosition];
     if (!key)
     {
@@ -196,6 +196,7 @@ L2:
 void ______INIT______()
 {
     mem_init();
+    allocateBuffer = malloc(32*4);
     main();
 }
 
