@@ -64,9 +64,147 @@ inline int prototype_len_string(dword text)
   return text-begin;
 }
 
+inline fastcall void mem_init()
+{
+        $mov     eax, 68
+        $mov     ebx, 11
+        $int     0x40
+}
+
+:dword malloc(dword size)
+{
+        $push    ebx
+        $push    ecx
+
+        $mov     eax, 68
+        $mov     ebx, 12
+        $mov     ecx, size
+        $int     0x40
+
+        $pop     ecx
+        $pop     ebx
+        return  EAX;
+}
+
+:stdcall dword realloc(dword mptr, size)
+{
+        $push    ebx
+        $push    ecx
+        $push    edx
+
+        $mov     eax, 68
+        $mov     ebx, 20
+        $mov     ecx, size
+        $mov     edx, mptr
+        $int     0x40
+
+        $pop     edx
+        $pop     ecx
+        $pop     ebx
+        return   EAX;
+}
+
+:dword free(dword mptr)
+{
+        $push    eax
+        $push    ebx
+        $push    ecx
+
+        $mov     eax, 68
+        $mov     ebx, 13
+        $mov     ecx, mptr
+        $test    ecx, ecx
+        $jz      end0
+        $int     0x40
+   @end0:
+        $pop     ecx
+        $pop     ebx
+        $pop     eax
+        return 0;
+}
+
+
+dword allocateBuffer[32] = {0};
+
+
+byte allocSize(dword size)
+{
+    byte sizeABS = 0;
+    while (size)
+    {
+        size >>= 1;
+        sizeABS++;
+    }
+    return sizeABS;
+}
+dword malloc2(dword size)
+{
+    dword allocBytePosition = 0;
+    dword key = 0;
+    dword alloc = 0;
+    word keyCurrent = 0;
+    word keyLength = 0;
+    byte allocSizePosition = allocSize(size);
+    allocBytePosition = allocSizePosition * 4 + #allocateBuffer;
+    key = DSDWORD[allocBytePosition];
+    if (!key)
+    {
+        alloc = malloc(1<<allocSizePosition);
+        DSBYTE[alloc] = allocSizePosition;
+        return alloc+1;
+    }
+
+    keyLength = DSWORD[key];
+    keyCurrent = DSWORD[key+2];
+
+    if (keyCurrent < 8)
+    {
+        alloc = malloc(1<<allocSizePosition);
+        DSBYTE[alloc] = allocSizePosition;
+        return alloc+1;
+    }
+
+    DSWORD[key+2] = DSWORD[key+2] - 4;
+    keyCurrent = DSWORD[key+2];
+
+    return DSDWORD[key+keyCurrent]+1;
+}
+
+dword free2(dword address)
+{
+    byte allocSizePosition = 0;
+    dword key = 0;
+    word keyCurrent = 0;
+    word keyLength = 0;
+    dword allocBytePosition = 0;
+    allocSizePosition = DSBYTE[address];
+    allocBytePosition = allocSizePosition * 4 + #allocateBuffer;
+    key = DSDWORD[allocBytePosition];
+    if (!key)
+    {
+        DSDWORD[allocBytePosition] = malloc(0x1000);
+        key = DSDWORD[allocBytePosition];
+        DSWORD[key] = 0x1000;
+        DSWORD[key+2] = 4;
+    }
+    keyLength = DSWORD[key];
+    keyCurrent = DSWORD[key+2];
+    DSWORD[key+2] = keyCurrent+4;
+    if (DSWORD[key+2] > keyLength)
+    {
+        DSDWORD[allocBytePosition] = realloc(key, keyLength<<1);
+        key = DSDWORD[allocBytePosition];
+        keyCurrent = DSWORD[key+2];
+        DSWORD[key] = keyLength<<1;
+    }
+    DSDWORD[keyCurrent+4] = address-1;
+    return address;
+}
+
 void ______INIT______()
 {
-  main();
+    mem_init();
+    main();
 }
 
 ______STOP______:
