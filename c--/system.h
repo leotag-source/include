@@ -10,12 +10,13 @@ char   os_name[8]   = {'M','E','N','U','E','T','0','1'};
 dword  os_version   = 0x00000001;
 dword  start_addr   = #______INIT______;
 dword  final_addr   = #______STOP______+32;
-dword  alloc_mem    = 100000;
-dword  x86esp_reg   = 100000;
+dword  alloc_mem    = 1000000;
+dword  x86esp_reg   = 1000000;
 dword  I_Param      = 0;
 dword  I_Path       = 0;
 char param[4096]={0};
 char program_path[4096]={0};
+dword allocateBuffer[4*32] = {0};
 
 inline byte IntegerToBoolean(signed int value)
 {
@@ -71,7 +72,7 @@ inline fastcall void mem_init()
         $int     0x40
 }
 
-:dword malloc(dword size)
+inline dword malloc(dword size)
 {
         $push    ebx
         $push    ecx
@@ -86,48 +87,29 @@ inline fastcall void mem_init()
         return  EAX;
 }
 
-:stdcall dword realloc(dword mptr, size)
+inline stdcall dword realloc(dword mptr, size)
 {
-        $push    ebx
-        $push    ecx
-        $push    edx
-
         $mov     eax, 68
         $mov     ebx, 20
         $mov     ecx, size
         $mov     edx, mptr
         $int     0x40
 
-        $pop     edx
-        $pop     ecx
-        $pop     ebx
         return   EAX;
 }
 
-:dword free(dword mptr)
+inline dword free(dword mptr)
 {
-        $push    eax
-        $push    ebx
-        $push    ecx
-
         $mov     eax, 68
         $mov     ebx, 13
         $mov     ecx, mptr
         $test    ecx, ecx
-        $jz      end0
+
         $int     0x40
-   @end0:
-        $pop     ecx
-        $pop     ebx
-        $pop     eax
         return 0;
 }
 
-
-dword allocateBuffer[32] = {0};
-
-
-byte allocSize(dword size)
+inline byte allocSize(dword size)
 {
     byte sizeABS = 0;
     while (size)
@@ -137,7 +119,7 @@ byte allocSize(dword size)
     }
     return sizeABS;
 }
-dword malloc2(dword size)
+inline dword malloc2(dword size)
 {
     dword allocBytePosition = 0;
     dword key = 0;
@@ -170,7 +152,7 @@ dword malloc2(dword size)
     return DSDWORD[key+keyCurrent]+1;
 }
 
-dword free2(dword address)
+inline dword free2(dword address)
 {
     byte allocSizePosition = 0;
     dword key = 0;
