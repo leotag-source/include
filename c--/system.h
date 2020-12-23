@@ -282,6 +282,29 @@ inline dword concatString(dword str1, dword str2, byte flags)
     return text;
 }
 
+inline signed int StringCompareEq(dword text1, text2)
+{
+        char s1,s2;
+        dword p1,p2;
+        p1 = text1;
+        p2 = text2;
+        loop()
+        {
+                s1 = DSBYTE[text1];
+                s2 = DSBYTE[text2];
+                if(s1==s2)
+                {
+                        if(s1==0) return 0;
+                }
+                else {
+                        return s1-s2;
+                }
+                $inc text1
+                $inc text2
+        }
+        return 0;
+}
+
 inline dword freeString(dword address, dword ret)
 {
     free2(DSDWORD[address]);
