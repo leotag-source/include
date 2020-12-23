@@ -330,6 +330,18 @@ L2:
     $jnz L2
 }
 
+inline byte BooleanCompareOr(byte b1, b2)
+{
+    if (b1) || (b2) return 1;
+    return 0;
+}
+
+inline byte BooleanCompareAnd(byte b1, b2)
+{
+    if (b1) && (b2) return 1;
+    return 0;
+}
+
 void ______INIT______()
 {
     mem_init();
