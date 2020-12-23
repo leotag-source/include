@@ -300,6 +300,12 @@ inline byte StringCompareEq(dword text1, text2)
     }
 }
 
+inline byte StringCompareNe(dword text1, text2)
+{
+    if (!StringCompareEq(text1, text2)) return 1;
+    return 0;
+}
+
 inline dword freeString(dword address, dword ret)
 {
     free2(DSDWORD[address]);
