@@ -265,6 +265,27 @@ inline dword realloc2(dword address, dword size)
     return newAddress;
 }
 
+inline dword concatString(dword str1, dword str2)
+{
+    unsigned int len1 = 0;
+    unsigned int len2 = 0;
+    dword text = 0;
+    len1 = strlen(str1);
+    len2 = strlen(str2);
+    text = malloc2(len1+len2+1);
+    strcpy(text, str1);
+    strcpy(text+len1, str2);
+    return text;
+}
+
+inline fastcall unsigned int strlen( EDI)
+{
+        $xor eax, eax
+        $mov ecx, -1
+        $REPNE $SCASB
+        EAX-=2+ECX;
+}
+
 inline fastcall void strcpy( EDI, ESI)
 {
     $cld
