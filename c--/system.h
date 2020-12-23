@@ -155,12 +155,12 @@ inline dword free(dword mptr)
 inline byte allocSize(dword size)
 {
     byte sizeABS = 0;
-    while (size)
+    WHILE (size)
     {
         size >>= 1;
         sizeABS++;
     }
-    return sizeABS;
+    RETURN sizeABS;
 }
 inline dword malloc2(dword size)
 {
@@ -173,7 +173,7 @@ inline dword malloc2(dword size)
 
     allocBytePosition = allocSizePosition * 4 + allocateBuffer;
     key = DSDWORD[allocBytePosition];
-    if (!key)
+    IF (!key)
     {
         alloc = malloc(1<<allocSizePosition);
         DSBYTE[alloc] = allocSizePosition;
@@ -183,7 +183,7 @@ inline dword malloc2(dword size)
     keyLength = DSWORD[key];
     keyCurrent = DSWORD[key+2];
 
-    if (keyCurrent < 8)
+    IF (keyCurrent < 8)
     {
         alloc = malloc(1<<allocSizePosition);
         DSBYTE[alloc] = allocSizePosition;
@@ -208,7 +208,7 @@ inline dword free2(dword address)
     allocSizePosition = DSBYTE[address];
     allocBytePosition = allocSizePosition * 4 + allocateBuffer;
     key = DSDWORD[allocBytePosition];
-    if (!key)
+    IF (!key)
     {
         DSDWORD[allocBytePosition] = malloc(0x1000);
         key = DSDWORD[allocBytePosition];
@@ -219,7 +219,7 @@ inline dword free2(dword address)
     keyCurrent = DSWORD[key+2];
     DSWORD[key+2] = keyCurrent+4;
 
-    if (DSWORD[key+2] > keyLength)
+    IF (DSWORD[key+2] > keyLength)
     {
         DSDWORD[allocBytePosition] = realloc(key, keyLength<<1);
         key = DSDWORD[allocBytePosition];
@@ -231,13 +231,38 @@ inline dword free2(dword address)
     address++;
     temp = address;
     len = 1<<allocSizePosition-1;
-    while (len)
+    WHILE (len)
     {
         DSBYTE[temp] = 0;
         temp++;
         len--;
     }
     return address;
+}
+
+inline dword realloc2(dword address, dword size)
+{
+    dword newAddress = 0;
+    dword ptr1 = 0;
+    dword ptr2 = 0;
+    dword len = 0;
+    byte allocSizePosition = 0;
+    IF (!address) RETURN malloc2(size);
+    newAddress = malloc2(size);
+    allocSizePosition = DSBYTE[address];
+    len = 1<<allocSizePosition-1;
+    IF (len > size) len = size;
+    ptr1 = newAddress;
+    ptr2 = address;
+    WHILE (len)
+    {
+        DSBYTE[ptr1] = DSBYTE[ptr2];
+        ptr1++;
+        ptr2++;
+        len--;
+    }
+    free2(address);
+    return newAddress;
 }
 
 inline fastcall void strcpy( EDI, ESI)
