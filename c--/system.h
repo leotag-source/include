@@ -281,7 +281,7 @@ inline dword concatString(dword str1, dword str2)
 
 inline void freeString(dword address)
 {
-    if (DSDWORD[address] > memSizeApplication) free2(address);
+    if (DSDWORD[address] > memSizeApplication) free2(DSDWORD[address]);
 }
 
 inline fastcall unsigned int strlen( EDI)
