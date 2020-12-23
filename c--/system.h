@@ -10,8 +10,8 @@ char   os_name[8]   = {'M','E','N','U','E','T','0','1'};
 dword  os_version   = 0x00000001;
 dword  start_addr   = #______INIT______;
 dword  final_addr   = #______STOP______+32;
-dword  alloc_mem    = 1000000;
-dword  x86esp_reg   = 1000000;
+dword  alloc_mem    = 0x1000000;
+dword  x86esp_reg   = 0x1000000;
 dword  I_Param      = 0;
 dword  I_Path       = 0;
 char param[4096]={0};
@@ -201,6 +201,8 @@ inline dword free2(dword address)
     dword key = 0;
     word keyCurrent = 0;
     word keyLength = 0;
+    dword len = 0;
+    dword temp = 0;
     dword allocBytePosition = 0;
     address--;
     allocSizePosition = DSBYTE[address];
@@ -226,7 +228,16 @@ inline dword free2(dword address)
     }
     key += keyCurrent;
     DSDWORD[key] = address;
-    return address+1;
+    address++;
+    temp = address;
+    len = 1<<allocSizePosition-1;
+    while (len)
+    {
+        DSBYTE[temp] = 0;
+        temp++;
+        len--;
+    }
+    return address;
 }
 
 inline fastcall void strcpy( EDI, ESI)
