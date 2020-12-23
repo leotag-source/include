@@ -205,6 +205,7 @@ inline dword free2(dword address)
     dword len = 0;
     dword temp = 0;
     dword allocBytePosition = 0;
+    IF (address <= memSizeApplication) return 0;
     address--;
     allocSizePosition = DSBYTE[address];
     allocBytePosition = allocSizePosition * 4 + allocateBuffer;
@@ -266,7 +267,7 @@ inline dword realloc2(dword address, dword size)
     return newAddress;
 }
 
-inline dword concatString(dword str1, dword str2)
+inline dword concatString(dword str1, dword str2, byte flags)
 {
     unsigned int len1 = 0;
     unsigned int len2 = 0;
@@ -276,12 +277,15 @@ inline dword concatString(dword str1, dword str2)
     text = malloc2(len1+len2+1);
     strcpy(text, str1);
     strcpy(text+len1, str2);
+    if (flags&0b10) free2(str1);
+    if (flags&0b01) free2(str2);
     return text;
 }
 
-inline void freeString(dword address)
+inline dword freeString(dword address, dword ret)
 {
-    if (DSDWORD[address] > memSizeApplication) free2(DSDWORD[address]);
+    free2(DSDWORD[address]);
+    return ret;
 }
 
 inline fastcall unsigned int strlen( EDI)
