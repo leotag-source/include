@@ -320,6 +320,13 @@ inline fastcall unsigned int strlen( EDI)
         EAX-=2+ECX;
 }
 
+inline dword indexString(dword text, dword index)
+{
+    dword r = malloc2(2);
+    DSBYTE[r] = DSBYTE[text+index];
+    return r;
+}
+
 inline fastcall void strcpy( EDI, ESI)
 {
     $cld
