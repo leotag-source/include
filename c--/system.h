@@ -6,19 +6,18 @@
 #jumptomain FALSE
 #code32 TRUE
 
-#define memSizeApplication 0x1000000
-
 char   os_name[8]   = {'M','E','N','U','E','T','0','1'};
 dword  os_version   = 0x00000001;
 dword  start_addr   = #______INIT______;
 dword  final_addr   = #______STOP______+32;
-dword  alloc_mem    = memSizeApplication;
-dword  x86esp_reg   = memSizeApplication;
+dword  alloc_mem    = #endApplicationLabel;
+dword  x86esp_reg   = #endApplicationLabel;
 dword  I_Param      = 0;
 dword  I_Path       = 0;
 char param[4096]={0};
 char program_path[4096]={0};
 dword allocateBuffer = 0;
+dword memSizeApplication = #endApplicationLabel;
 
 inline byte IntegerToBoolean(signed int value)
 {
