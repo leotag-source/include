@@ -6,12 +6,14 @@
 #jumptomain FALSE
 #code32 TRUE
 
+#define memSizeApplication 0x1000000
+
 char   os_name[8]   = {'M','E','N','U','E','T','0','1'};
 dword  os_version   = 0x00000001;
 dword  start_addr   = #______INIT______;
 dword  final_addr   = #______STOP______+32;
-dword  alloc_mem    = 0x1000000;
-dword  x86esp_reg   = 0x1000000;
+dword  alloc_mem    = memSizeApplication;
+dword  x86esp_reg   = memSizeApplication;
 dword  I_Param      = 0;
 dword  I_Path       = 0;
 char param[4096]={0};
@@ -276,6 +278,11 @@ inline dword concatString(dword str1, dword str2)
     strcpy(text, str1);
     strcpy(text+len1, str2);
     return text;
+}
+
+inline void freeString(dword address)
+{
+    if (DSDWORD[address] > memSizeApplication) free2(address);
 }
 
 inline fastcall unsigned int strlen( EDI)
