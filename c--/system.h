@@ -349,6 +349,11 @@ L2:
     $jnz L2
 }
 
+inline dword bracketsString(dword string)
+{
+    return string;
+}
+
 inline signed int bracketsInteger(signed int integer)
 {
     return integer;
