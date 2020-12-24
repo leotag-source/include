@@ -361,6 +361,8 @@ inline byte BooleanCompareAnd(byte b1, b2)
     return 0;
 }
 
+#define prototypeStringlen strlen
+
 void ______INIT______()
 {
     mem_init();
