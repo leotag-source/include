@@ -282,6 +282,18 @@ inline dword concatString(dword str1, dword str2, byte flags)
     return text;
 }
 
+inline dword IntegerToString(signed int i)
+{
+    dword r = 0;
+    dword r2 = 0;
+    dword len = 0;
+    r = itoa(i);
+    len = strlen(r);
+    r2 = malloc2(len+1);
+    strcpy(r2, r);
+    return r2;
+}
+
 inline byte StringCompareEq(dword text1, text2)
 {
     while (1)
