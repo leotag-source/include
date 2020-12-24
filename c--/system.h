@@ -349,6 +349,11 @@ L2:
     $jnz L2
 }
 
+inline signed int bracketsInteger(signed int integer)
+{
+    return integer;
+}
+
 inline byte BooleanCompareOr(byte b1, b2)
 {
     if (b1) || (b2) return 1;
