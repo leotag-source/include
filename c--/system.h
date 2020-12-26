@@ -294,6 +294,12 @@ inline dword IntegerToString(signed int i)
     return r2;
 }
 
+inline byte StringToBoolean(dword text)
+{
+    if (DSBYTE[text]) return 1;
+    return 0;
+}
+
 inline byte StringCompareEq(dword text1, text2)
 {
     while (1)
@@ -335,7 +341,7 @@ inline fastcall unsigned int strlen( EDI)
 inline dword indexString(dword text, signed int index)
 {
     dword r = malloc2(2);
-    sidned int len = strlen(text);
+    signed int len = strlen(text);
     if (index < 0) index = len+index;
     if (index < len) DSBYTE[r] = DSBYTE[text+index];
     return r;
