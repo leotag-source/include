@@ -37,9 +37,21 @@ inline byte IntegerCompareLt(signed int x, signed int y)
   return 0;
 }
 
+inline byte IntegerCompareLe(signed int x, signed int y)
+{
+  if (x < y) return 1;
+  return 0;
+}
+
 inline byte IntegerCompareRt(signed int x, signed int y)
 {
-  if (x > y) return 1;
+  if (x >= y) return 1;
+  return 0;
+}
+
+inline byte IntegerCompareRe(signed int x, signed int y)
+{
+  if (x >= y) return 1;
   return 0;
 }
 
