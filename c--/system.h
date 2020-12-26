@@ -337,8 +337,7 @@ inline dword indexString(dword text, signed int index)
     dword r = malloc2(2);
     sidned int len = strlen(text);
     if (index < 0) index = len+index;
-    if (index >= len) index = len-1;
-    DSBYTE[r] = DSBYTE[text+index];
+    if (index < len) DSBYTE[r] = DSBYTE[text+index];
     return r;
 }
 
