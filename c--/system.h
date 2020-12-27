@@ -306,6 +306,30 @@ inline dword IntegerToString(signed int i)
     return r2;
 }
 
+inline byte StringCompareLt(dword text1, text2, flags)
+{
+    byte r = 0;
+    if (DSBYTE[text1]<DSBYTE[text2])
+    {
+        r = 1;
+    }
+    if (flags&0b10) free2(text1);
+    if (flags&0b01) free2(text2);
+    return r;
+}
+
+inline byte StringCompareRt(dword text1, text2, flags)
+{
+    byte r = 0;
+    if (DSBYTE[text1]>DSBYTE[text2])
+    {
+        r = 1;
+    }
+    if (flags&0b10) free2(text1);
+    if (flags&0b01) free2(text2);
+    return r;
+}
+
 inline byte StringToBoolean(dword text)
 {
     if (DSBYTE[text]) return 1;
