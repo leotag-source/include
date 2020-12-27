@@ -25,31 +25,31 @@ inline byte IntegerToBoolean(signed int value)
   return 0;
 }
 
-inline byte IntegerCompareEq(signed int value1, signed int value2)
+inline byte IntegerCompareEq(signed int value1, signed int value2, dword flags)
 {
   if (value1 == value2) return 0x01;
   return 0;
 }
 
-inline byte IntegerCompareLt(signed int x, signed int y)
+inline byte IntegerCompareLt(signed int x, signed int y, dword flags)
 {
   if (x < y) return 1;
   return 0;
 }
 
-inline byte IntegerCompareLe(signed int x, signed int y)
+inline byte IntegerCompareLe(signed int x, signed int y, dword flags)
 {
   if (x <= y) return 1;
   return 0;
 }
 
-inline byte IntegerCompareRt(signed int x, signed int y)
+inline byte IntegerCompareRt(signed int x, signed int y, dword flags)
 {
   if (x > y) return 1;
   return 0;
 }
 
-inline byte IntegerCompareRe(signed int x, signed int y)
+inline byte IntegerCompareRe(signed int x, signed int y, dword flags)
 {
   if (x >= y) return 1;
   return 0;
@@ -312,27 +312,33 @@ inline byte StringToBoolean(dword text)
     return 0;
 }
 
-inline byte StringCompareEq(dword text1, text2)
+inline byte StringCompareEq(dword text1, text2, flags)
 {
+    byte r = 0;
     while (1)
     {
         if (!DSBYTE[text1]) || (!DSBYTE[text2])
         {
-            if (DSBYTE[text1] != DSBYTE[text2]) return 0;
-            return 1;
+            if (DSBYTE[text1] != DSBYTE[text2]) goto free_StringCompareEq;
+            r = 1;
+            goto free_StringCompareEq;
         }
         if (DSBYTE[text1] != DSBYTE[text2])
         {
-            return 0;
+            goto free_StringCompareEq;
         }
         text1++;
         text2++;
     }
+    free_StringCompareEq:
+    if (flags&0b10) free2(text1);
+    if (flags&0b01) free2(text2);
+    return r;
 }
 
-inline byte StringCompareNe(dword text1, text2)
+inline byte StringCompareNe(dword text1, text2, flags)
 {
-    if (!StringCompareEq(text1, text2)) return 1;
+    if (!StringCompareEq(text1, text2, flags)) return 1;
     return 0;
 }
 
