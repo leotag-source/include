@@ -330,6 +330,30 @@ inline byte StringCompareRt(dword text1, text2, flags)
     return r;
 }
 
+inline byte StringCompareLe(dword text1, text2, flags)
+{
+    byte r = 0;
+    if (DSBYTE[text1]<=DSBYTE[text2])
+    {
+        r = 1;
+    }
+    if (flags&0b10) free2(text1);
+    if (flags&0b01) free2(text2);
+    return r;
+}
+
+inline byte StringCompareRe(dword text1, text2, flags)
+{
+    byte r = 0;
+    if (DSBYTE[text1]>=DSBYTE[text2])
+    {
+        r = 1;
+    }
+    if (flags&0b10) free2(text1);
+    if (flags&0b01) free2(text2);
+    return r;
+}
+
 inline byte StringToBoolean(dword text)
 {
     if (DSBYTE[text]) return 1;
