@@ -374,6 +374,11 @@ inline dword bracketsString(dword string)
     return string;
 }
 
+inline byte bracketsBoolean(dword bool)
+{
+    return bool;
+}
+
 inline signed int bracketsInteger(signed int integer)
 {
     return integer;
