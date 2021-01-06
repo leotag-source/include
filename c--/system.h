@@ -412,7 +412,7 @@ inline dword indexGetString(dword text, signed int index)
     dword r = malloc2(2);
     signed int len = strlen(text);
     if (index < 0) index = len+index;
-    if (index >= len) index = len-1
+    if (index >= len) index = len-1;
     if (index < len) DSBYTE[r] = DSBYTE[text+index];
     return r;
 }
@@ -422,7 +422,7 @@ inline void indexSetString(dword text, signed int index, dword value)
     signed int len = 0;
     len = strlen(text);
     if (index < 0) index += len;
-    if (index >= len) index = len-1
+    if (index >= len) index = len-1;
     DSBYTE[text+index] = DSBYTE[value];
 }
 
