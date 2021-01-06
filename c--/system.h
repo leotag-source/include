@@ -418,6 +418,10 @@ inline dword indexGetString(dword text, signed int index)
 
 inline void indexSetString(dword text, signed int index, dword value)
 {
+    signed int len = 0;
+    len = strlen(text);
+    if (index < 0) index += len;
+    if (index >= len) index = len-1
     DSBYTE[text+index] = DSBYTE[value];
 }
 
