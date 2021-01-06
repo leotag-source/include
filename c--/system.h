@@ -453,6 +453,15 @@ inline byte BooleanCompareAnd(byte b1, b2)
     return 0;
 }
 
+inline dword indexArray(dword address, key)
+{
+    dword offset = key&0x1FF;
+    dword offsetAddress = offset*4+address;
+    IF (key==offset) RETURN 4*0x200+offsetAddress;
+    IF (!DSDWORD[offsetAddress]) DSDWORD[offsetAddress] = malloc(0x1000);
+    RETURN indexArray(DSDWORD[offsetAddress], key>>9);
+}
+
 #define prototypeStringlen strlen
 
 void ______INIT______()
