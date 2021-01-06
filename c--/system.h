@@ -407,7 +407,7 @@ inline fastcall unsigned int strlen( EDI)
         EAX-=2+ECX;
 }
 
-inline dword indexString(dword text, signed int index)
+inline dword indexGetString(dword text, signed int index)
 {
     dword r = malloc2(2);
     signed int len = strlen(text);
