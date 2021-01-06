@@ -416,6 +416,11 @@ inline dword indexGetString(dword text, signed int index)
     return r;
 }
 
+inline void indexSetString(dword text, signed int index, dword value)
+{
+    DSBYTE[text+index] = DSBYTE[value];
+}
+
 inline fastcall void strcpy( EDI, ESI)
 {
     $cld
