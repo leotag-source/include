@@ -473,10 +473,23 @@ void indexSetListInteger(dword address, signed int key, signed int value)
     DSDWORD[EAX] = value;
 }
 
+void indexSetListString(dword address, signed int key, dword value)
+{
+    indexArray(address, key);
+    DSDWORD[EAX] = value;
+}
+
 signed int indexGetListInteger(dword address, signed int key)
 {
     indexArray(address, key);
     return DSDWORD[EAX];
+}
+
+signed int indexGetListString(dword address, signed int key)
+{
+    indexArray(address, key);
+    EAX = DSDWORD[EAX];
+    IF (!EAX) return "";
 }
 
 #define prototypeStringlen strlen
