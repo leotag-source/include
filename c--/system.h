@@ -497,6 +497,9 @@ signed int indexGetListString(dword address, signed int key)
 void ______INIT______()
 {
     mem_init();
+    EAX = 40;
+    EBX = 0xFFFFFFFF;
+    $int 0x40;
     allocateBuffer = malloc(32*4);
     main();
 }
