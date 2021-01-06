@@ -467,6 +467,18 @@ inline dword indexArray(dword address, key)
     RETURN indexArray(DSDWORD[offsetAddress], key>>9);
 }
 
+void indexSetListInteger(dword address, signed int key, signed int value)
+{
+    indexArray(address, key);
+    DSDWORD[EAX] = value;
+}
+
+signed int indexGetListInteger(dword address, signed int key)
+{
+    indexArray(address, key);
+    return DSDWORD[EAX];
+}
+
 #define prototypeStringlen strlen
 
 void ______INIT______()
