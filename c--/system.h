@@ -498,7 +498,7 @@ void ______INIT______()
 {
     mem_init();
     EAX = 40;
-    EBX = 0xFFFFFFFF;
+    EBX = 0b111111111;
     $int 0x40;
     allocateBuffer = malloc(32*4);
     main();
