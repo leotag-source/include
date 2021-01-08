@@ -484,6 +484,9 @@ void indexSetListString(dword address, signed int key, dword value)
 
 void indexSetStringInteger(dword address, signed int key, dword value)
 {
+    signed int len = 0;
+    len = strlen(address);
+    if (key < 0) key = len+key;
     DSBYTE[address+key] = value;
 }
 
