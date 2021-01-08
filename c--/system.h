@@ -484,6 +484,11 @@ void indexSetListString(dword address, signed int key, dword value)
     DSDWORD[EAX] = value;
 }
 
+void indexSetStringInteger(dword address, signed int key, dword value)
+{
+    DSBYTE[address+key] = value;
+}
+
 signed int indexGetListInteger(dword address, signed int key)
 {
     indexArray(address, key);
