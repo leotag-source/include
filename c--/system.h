@@ -451,12 +451,12 @@ inline signed int bracketsInteger(signed int integer)
     return integer;
 }
 
-inline byte BooleanCompareOr(byte b1, b2)
+inline byte BooleanCompareOr(byte b1, b2, flags)
 {
     return b1|b2;
 }
 
-inline byte BooleanCompareAnd(byte b1, b2)
+inline byte BooleanCompareAnd(byte b1, b2, flags)
 {
     return b1&b2;
 }
