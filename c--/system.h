@@ -309,7 +309,7 @@ inline dword IntegerToString(signed int i)
     return r2;
 }
 
-inline byte StringCompareLt(dword text1, text2, flags)
+inline byte StringCompareLt(dword text1, text2, byte flags)
 {
     byte r = 0;
     if (DSBYTE[text1]<DSBYTE[text2])
@@ -321,7 +321,7 @@ inline byte StringCompareLt(dword text1, text2, flags)
     return r;
 }
 
-inline byte StringCompareRt(dword text1, text2, flags)
+inline byte StringCompareRt(dword text1, text2, byte flags)
 {
     byte r = 0;
     if (DSBYTE[text1]>DSBYTE[text2])
@@ -333,7 +333,7 @@ inline byte StringCompareRt(dword text1, text2, flags)
     return r;
 }
 
-inline byte StringCompareLe(dword text1, text2, flags)
+inline byte StringCompareLe(dword text1, text2, byte flags)
 {
     byte r = 0;
     if (DSBYTE[text1]<=DSBYTE[text2])
@@ -345,7 +345,7 @@ inline byte StringCompareLe(dword text1, text2, flags)
     return r;
 }
 
-inline byte StringCompareRe(dword text1, text2, flags)
+inline byte StringCompareRe(dword text1, text2, byte flags)
 {
     byte r = 0;
     if (DSBYTE[text1]>=DSBYTE[text2])
@@ -363,7 +363,7 @@ inline byte StringToBoolean(dword text)
     return 0;
 }
 
-inline byte StringCompareEq(dword text1, text2, flags)
+inline byte StringCompareEq(dword text1, text2, byte flags)
 {
     byte r = 0;
     while (1)
@@ -387,7 +387,7 @@ inline byte StringCompareEq(dword text1, text2, flags)
     return r;
 }
 
-inline byte StringCompareNe(dword text1, text2, flags)
+inline byte StringCompareNe(dword text1, text2, byte flags)
 {
     if (!StringCompareEq(text1, text2, flags)) return 1;
     return 0;
@@ -441,7 +441,7 @@ inline dword bracketsString(dword string)
     return string;
 }
 
-inline byte bracketsBoolean(dword bool)
+inline byte bracketsBoolean(byte bool)
 {
     return bool;
 }
@@ -493,7 +493,7 @@ signed int indexGetListInteger(dword address, signed int key)
     return DSDWORD[EAX];
 }
 
-signed int indexGetListString(dword address, signed int key)
+dword indexGetListString(dword address, signed int key)
 {
     indexArray(address, key);
     EAX = DSDWORD[EAX];
