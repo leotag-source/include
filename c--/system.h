@@ -30,7 +30,7 @@ inline byte IntegerToBoolean(signed int value)
 
 inline byte IntegerCompareEq(signed int value1, signed int value2, dword flags)
 {
-  if (value1 == value2) return 0x01;
+  if (value1 == value2) return 1;
   return 0;
 }
 
@@ -453,14 +453,12 @@ inline signed int bracketsInteger(signed int integer)
 
 inline byte BooleanCompareOr(byte b1, b2)
 {
-    if (b1) || (b2) return 1;
-    return 0;
+    return b1|b2;
 }
 
 inline byte BooleanCompareAnd(byte b1, b2)
 {
-    if (b1) && (b2) return 1;
-    return 0;
+    return b1&b2;
 }
 
 inline dword indexArray(dword address, key)
