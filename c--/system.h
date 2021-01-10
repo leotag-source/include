@@ -470,13 +470,13 @@ inline dword indexArray(dword address, key)
     RETURN indexArray(DSDWORD[offsetAddress], key>>9);
 }
 
-void indexSetListInteger(dword address, signed int key, signed int value)
+void indexSetListIntegerInteger(dword address, signed int key, signed int value)
 {
     indexArray(address, key);
     DSDWORD[EAX] = value;
 }
 
-void indexSetListString(dword address, signed int key, dword value)
+void indexSetListStringString(dword address, signed int key, dword value)
 {
     indexArray(address, key);
     DSDWORD[EAX] = value;
