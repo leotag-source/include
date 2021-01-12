@@ -366,22 +366,15 @@ inline byte StringToBoolean(dword text)
 inline byte StringCompareEq(dword text1, text2, byte flags)
 {
     byte r = 0;
-    while (1)
+    dword buffer1 = text1;
+    dword buffer2 = text2;
+    while (DSBYTE[buffer1]) && (DSBYTE[buffer2])
     {
-        if (!DSBYTE[text1]) || (!DSBYTE[text2])
-        {
-            if (DSBYTE[text1] != DSBYTE[text2]) goto free_StringCompareEq;
-            r = 1;
-            goto free_StringCompareEq;
-        }
-        if (DSBYTE[text1] != DSBYTE[text2])
-        {
-            goto free_StringCompareEq;
-        }
-        text1++;
-        text2++;
+        if (DSBYTE[buffer1] != DSBYTE[buffer2]) break;
+        buffer1++;
+        buffer2++;
     }
-    free_StringCompareEq:
+    if (DSBYTE[buffer1] == DSBYTE[buffer2]) r = 1;
     if (flags&0b10) free2(text1);
     if (flags&0b01) free2(text2);
     return r;
