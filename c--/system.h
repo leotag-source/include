@@ -290,7 +290,7 @@ inline dword concatString(dword str1, dword str2, byte flags)
     len1 = strlen(str1);
     len2 = strlen(str2);
     text = malloc2(len1+len2+1);
-    strcpy(text, str1);
+    if (len1) strcpy(text, str1);
     strcpy(text+len1, str2);
     if (flags&0b10) free2(str1);
     if (flags&0b01) free2(str2);
@@ -414,6 +414,7 @@ inline void indexSetString(dword text, signed int index, dword value)
 {
     signed int len = 0;
     len = strlen(text);
+    if (!len) && (index < 0) return;
     if (index < 0) index += len;
     if (index >= len) index = len-1;
     DSBYTE[text+index] = DSBYTE[value];
@@ -478,11 +479,17 @@ void indexSetListStringString(dword address, signed int key, dword value)
 void indexSetStringInteger(dword address, signed int key, dword value)
 {
     signed int len = 0;
+    signed int m = 0;
     len = strlen(address);
     if (!len) key = 0;
     else if (key < 0)
     {
         key = len+key;
+    }
+    if (key)
+    {
+        m = key/len;
+        key -= m*len;
     }
     DSBYTE[address+key] = value;
 }
