@@ -494,6 +494,7 @@ void indexSetStringInteger(dword address, signed int key, dword value)
     DSBYTE[address+key] = value;
 }
 
+
 signed int indexGetListInteger(dword address, signed int key)
 {
     indexArray(address, key);
@@ -508,6 +509,8 @@ dword indexGetListString(dword address, signed int key)
 }
 
 #define prototypeStringlen strlen
+#define indexSetListListIntegerListInteger indexSetListStringString
+#define indexGetListListInteger indexGetListString
 
 void ______INIT______()
 {
