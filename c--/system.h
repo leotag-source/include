@@ -510,7 +510,9 @@ dword indexGetListString(dword address, signed int key)
 
 #define prototypeStringlen strlen
 #define indexSetListListIntegerListInteger indexSetListStringString
+#define indexSetListListStringListString indexSetListStringString
 #define indexGetListListInteger indexGetListString
+#define indexGetListListString indexGetListString
 
 void ______INIT______()
 {
